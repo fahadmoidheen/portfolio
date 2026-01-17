@@ -1,16 +1,17 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Atom, FileCode, Palette, Zap, Server, GitBranch, LayoutTemplate, Globe } from 'lucide-react';
 
 const Skills = () => {
     const skills = [
-        { name: "React", level: "Expert", category: "Frontend" },
-        { name: "TypeScript", level: "Advanced", category: "Languages" },
-        { name: "JavaScript", level: "Expert", category: "Languages" },
-        { name: "Tailwind CSS", level: "Advanced", category: "Styling" },
-        { name: "Next.js", level: "Advanced", category: "Frontend" },
-        { name: "Node.js", level: "Intermediate", category: "Backend" },
-        { name: "Git", level: "Advanced", category: "Tools" },
-        { name: "HTML5/CSS3", level: "Expert", category: "Fundamentals" },
+        { name: "React", level: "Expert", icon: <Atom size={20} /> },
+        { name: "TypeScript", level: "Advanced", icon: <FileCode size={20} /> },
+        { name: "JavaScript", level: "Expert", icon: <FileCode size={20} /> },
+        { name: "Tailwind CSS", level: "Advanced", icon: <Palette size={20} /> },
+        { name: "Next.js", level: "Advanced", icon: <Zap size={20} /> },
+        { name: "Node.js", level: "Intermediate", icon: <Server size={20} /> },
+        { name: "Git", level: "Advanced", icon: <GitBranch size={20} /> },
+        { name: "HTML5/CSS3", level: "Expert", icon: <LayoutTemplate size={20} /> },
     ];
 
     return (
@@ -39,7 +40,7 @@ const Skills = () => {
                         >
                             <h3 className="text-xl font-semibold text-slate-100 mb-2 group-hover:text-purple-400 transition-colors">{skill.name}</h3>
                             <div className="flex justify-between items-center text-sm text-slate-400">
-                                <span>{skill.category}</span>
+                                <span className="text-cyan-400">{skill.icon}</span>
                                 <span className="text-slate-500">{skill.level}</span>
                             </div>
                         </motion.div>

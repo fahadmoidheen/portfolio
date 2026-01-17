@@ -3,10 +3,15 @@ import { motion } from 'framer-motion';
 import { Mail, MapPin, Phone, Send } from 'lucide-react';
 
 const Contact = () => {
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Handle form submission logic
-        alert("Thanks for contacting me! This is a demo form.");
+    const [submitted, setSubmitted] = React.useState(false);
+
+    const handleSubmit = () => {
+        setSubmitted(true);
+        setTimeout(() => {
+            setSubmitted(false);
+            // Optional: Form reset logic if needed, but since it's a standard form submit, page doesn't reload.
+            // We can manually clear inputs if we attach refs, but for now just showing the popup is enough.
+        }, 5000);
     };
 
     return (
@@ -75,26 +80,69 @@ const Contact = () => {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.4 }}
-                        className="bg-slate-900 p-8 rounded-2xl border border-slate-800"
+                        className="bg-slate-900 p-8 rounded-2xl border border-slate-800 relative"
                     >
-                        <form onSubmit={handleSubmit} className="space-y-6">
+                        {/* Success Popup */}
+                        {submitted && (
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                className="absolute inset-0 bg-slate-900/95 backdrop-blur-sm z-10 flex flex-col items-center justify-center text-center p-6 rounded-2xl border border-cyan-500/30"
+                            >
+                                <div className="w-16 h-16 bg-green-500/20 text-green-400 rounded-full flex items-center justify-center mb-4">
+                                    <Send size={32} />
+                                </div>
+                                <h3 className="text-2xl font-bold text-white mb-2">Message Sent!</h3>
+                                <p className="text-slate-300 mb-6">Thanks for reaching out. I'll get back to you soon.</p>
+                                <button
+                                    onClick={() => setSubmitted(false)}
+                                    className="px-6 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg transition-colors"
+                                >
+                                    Close
+                                </button>
+                            </motion.div>
+                        )}
+
+                        <iframe name="hidden_iframe" id="hidden_iframe" style={{ display: 'none' }}></iframe>
+
+                        <form
+                            action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSeXqUz0EfhLm8zeyUPFWHO7gXLxhYI0xJr7YWUwmF0kPDmaJQ/formResponse"
+                            target="hidden_iframe"
+                            method="POST"
+                            onSubmit={handleSubmit}
+                            className="space-y-6"
+                        >
                             <div className="grid md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
                                     <label className="text-sm text-slate-400">Name</label>
-                                    <input type="text" className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500 transition-colors" placeholder="John Doe" />
+                                    <input
+                                        type="text"
+                                        name="entry.966504983"
+                                        className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500 transition-colors"
+                                        placeholder="John Doe"
+                                        required
+                                    />
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-sm text-slate-400">Email</label>
-                                    <input type="email" className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500 transition-colors" placeholder="john@example.com" />
+                                    <input
+                                        type="email"
+                                        name="entry.539792637"
+                                        className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500 transition-colors"
+                                        placeholder="john@example.com"
+                                        required
+                                    />
                                 </div>
                             </div>
                             <div className="space-y-2">
-                                <label className="text-sm text-slate-400">Subject</label>
-                                <input type="text" className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500 transition-colors" placeholder="Project Inquiry" />
-                            </div>
-                            <div className="space-y-2">
                                 <label className="text-sm text-slate-400">Message</label>
-                                <textarea rows="4" className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500 transition-colors resize-none" placeholder="Tell me about your project..."></textarea>
+                                <textarea
+                                    rows="4"
+                                    name="entry.67905715"
+                                    className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500 transition-colors resize-none"
+                                    placeholder="Tell me about your project..."
+                                    required
+                                ></textarea>
                             </div>
                             <button type="submit" className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold py-4 rounded-lg transition-all flex items-center justify-center gap-2">
                                 Send Message <Send size={18} />
